@@ -2,12 +2,12 @@ import React, { useContext } from 'react';
 import myContext from '../context/myContext';
 
 const FilterSearch = () => {
-  const { setFilter } = useContext(myContext);
+  const { setFilter, filter } = useContext(myContext);
 
   const handleChange = (name) => {
     setFilter({
       filterByName: {
-        name,
+        ...filter, name,
       },
     });
   };

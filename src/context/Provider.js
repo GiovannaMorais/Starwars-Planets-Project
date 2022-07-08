@@ -11,6 +11,7 @@ const Provider = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   };
   const [filter, setFilter] = useState(innitialFilter);
 

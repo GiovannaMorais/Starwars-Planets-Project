@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import myContext from '../context/myContext';
 import FilterSearch from './FilterSearch';
+import FilterNumberValue from './FilterNumberValue';
 
 const Table = () => {
   const { planets, filter, planetsFiltered, setPlanetsFiltered } = useContext(myContext);
@@ -23,6 +24,7 @@ const Table = () => {
   return (
     <>
       <FilterSearch />
+      <FilterNumberValue />
       <table>
         <thead>
           <tr>
