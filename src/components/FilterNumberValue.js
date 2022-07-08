@@ -2,12 +2,19 @@ import React, { useContext, useState } from 'react';
 import myContext from '../context/myContext';
 
 const FilterNumberValue = () => {
-  const { setFilter, filter, planetsFiltered, setPlanets } = useContext(myContext);
+  const { setFilter,
+    filter,
+    planetsFiltered,
+    setPlanets,
+    columns,
+    setColumns,
+  } = useContext(myContext);
 
   const [valueColumn, setValueColumn] = useState('population');
   const [valueComparison, setValueComparison] = useState('maior que');
   const [valueNumeric, setValueNumeric] = useState('0');
 
+  // console.log('colunas', columns);
   //   console.log(filter);
   const handleClick = () => {
     setFilter({
@@ -28,30 +35,39 @@ const FilterNumberValue = () => {
       }
       return null;
     });
+    // console.log('valueCollumn', valueColumn);
     setPlanets(FilterNumber);
+    const notRepeatFilters = columns.filter((column) => column !== valueColumn);
+    // console.log('colluns2', valueColumn);
+    setColumns(notRepeatFilters);
   };
+
   return (
     <div>
       <label htmlFor="valueColumn">
         <select
           name="valueColumn"
           id="valueColumn"
-          value={ valueColumn }
+          // value={ valueColumn }
           data-testid="column-filter"
           onChange={ ({ target: { value } }) => setValueColumn(value) }
         >
-          <option value="population">population</option>
+          {/* <option defaultValue=""> </option> */}
+          {/* <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          <option value="surface_water">surface_water</option> */}
+          {columns.map((item) => (
+            <option key={ item }>{ item }</option>
+          )) }
         </select>
       </label>
       <label htmlFor="valueComparison">
         <select
           name="valueComparison"
           id="valueComparison"
-          value={ valueComparison }
+          // value={ valueComparison }
           data-testid="comparison-filter"
           onChange={ ({ target: { value } }) => setValueComparison(value) }
         >
@@ -66,16 +82,16 @@ const FilterNumberValue = () => {
           id="valueNumeric"
           type="text"
           data-testid="value-filter"
-          value={ valueNumeric }
+          // value={ valueNumeric }
           onChange={ ({ target: { value } }) => setValueNumeric(value) }
         />
       </label>
       <button
-        name="Filtrar"
-        id="Filtrar"
+        // name="Filtrar"
+        // id="Filtrar"
         type="button"
         data-testid="button-filter"
-        onClick={ () => handleClick() }
+        onClick={ handleClick }
       >
         Filtrar
       </button>

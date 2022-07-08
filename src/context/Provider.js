@@ -11,20 +11,30 @@ const Provider = ({ children }) => {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [],
+    filterByNumericValues: [
+      // {
+      //   column: '',
+      //   comparison: ' ',
+      //   value: '',
+      // },
+    ],
   };
   const [filter, setFilter] = useState(innitialFilter);
+  const [columns, setColumns] = useState(['orbital_period', 'population',
 
-  const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-
-  const fetchEndpoint = async (url) => {
-    const data = await FetchApi(url);
-    // console.log(data);
-    // console.log(data.results);
-    setPlanets(data.results);
-  };
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   useEffect(() => {
+    const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+
+    const fetchEndpoint = async (url) => {
+      const data = await FetchApi(url);
+      // console.log(data);
+      // console.log(data.results);
+      setPlanets(data.results);
+    };
     fetchEndpoint(endpoint);
   }, []);
 
@@ -35,6 +45,8 @@ const Provider = ({ children }) => {
     setPlanetsFiltered,
     filter,
     setFilter,
+    columns,
+    setColumns,
   };
   return (
     <myContext.Provider value={ contextValue }>
