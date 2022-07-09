@@ -6,13 +6,18 @@ const FilterNumberValue = () => {
     filter,
     planetsFiltered,
     setPlanets,
-    columns,
-    setColumns,
+    // columns,
+    // setColumns,
   } = useContext(myContext);
 
   const [valueColumn, setValueColumn] = useState('population');
   const [valueComparison, setValueComparison] = useState('maior que');
   const [valueNumeric, setValueNumeric] = useState('0');
+  const [columns, setColumns] = useState(['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water']);
 
   // console.log('colunas', columns);
   //   console.log(filter);
@@ -40,6 +45,9 @@ const FilterNumberValue = () => {
     const notRepeatFilters = columns.filter((column) => column !== valueColumn);
     // console.log('colluns2', valueColumn);
     setColumns(notRepeatFilters);
+    // setColumns(notRepeatFilters.reverse);
+    setValueColumn(notRepeatFilters);
+    // console.log(notRepeatFilters);
   };
 
   return (
@@ -48,18 +56,19 @@ const FilterNumberValue = () => {
         <select
           name="valueColumn"
           id="valueColumn"
-          // value={ valueColumn }
+          // value={ test }
           data-testid="column-filter"
           onChange={ ({ target: { value } }) => setValueColumn(value) }
+          onClick={ ({ target: { value } }) => setValueColumn(value) }
         >
-          {/* <option defaultValue=""> </option> */}
           {/* <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
           <option value="rotation_period">rotation_period</option>
           <option value="surface_water">surface_water</option> */}
+
           {columns.map((item) => (
-            <option key={ item }>{ item }</option>
+            <option key={ item } value={ item }>{ item }</option>
           )) }
         </select>
       </label>
@@ -82,7 +91,7 @@ const FilterNumberValue = () => {
           id="valueNumeric"
           type="text"
           data-testid="value-filter"
-          // value={ valueNumeric }
+          value={ valueNumeric }
           onChange={ ({ target: { value } }) => setValueNumeric(value) }
         />
       </label>

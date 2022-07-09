@@ -20,11 +20,11 @@ const Provider = ({ children }) => {
     ],
   };
   const [filter, setFilter] = useState(innitialFilter);
-  const [columns, setColumns] = useState(['orbital_period', 'population',
-
-    'diameter',
-    'rotation_period',
-    'surface_water']);
+  // const [columns, setColumns] = useState(['population',
+  //   'orbital_period',
+  //   'diameter',
+  //   'rotation_period',
+  //   'surface_water']);
 
   useEffect(() => {
     const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -45,8 +45,8 @@ const Provider = ({ children }) => {
     setPlanetsFiltered,
     filter,
     setFilter,
-    columns,
-    setColumns,
+    // columns,
+    // setColumns,
   };
   return (
     <myContext.Provider value={ contextValue }>
