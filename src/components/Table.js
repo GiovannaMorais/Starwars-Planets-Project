@@ -22,36 +22,41 @@ const Table = () => {
 
   // console.log('planetsFiltered', planetsFiltered);
   return (
-    <>
-      <FilterSearch />
-      <FilterNumberValue />
-      <table>
-        <thead>
-          <tr>
-            {theadTr.map((item) => <th key={ item }>{item}</th>)}
-          </tr>
-        </thead>
-        <tbody>
-          {planetsFiltered.map((item, index) => (
-            <tr key={ index }>
-              <td>{item.name}</td>
-              <td>{item.rotation_period}</td>
-              <td>{item.orbital_period}</td>
-              <td>{item.diameter}</td>
-              <td>{item.climate}</td>
-              <td>{item.gravity}</td>
-              <td>{item.terrain}</td>
-              <td>{item.surface_water}</td>
-              <td>{item.population}</td>
-              <td>{item.films}</td>
-              <td>{item.created}</td>
-              <td>{item.edited}</td>
-              <td>{item.url}</td>
+
+    (planets.length && (
+      <div>
+        <FilterSearch />
+        <FilterNumberValue />
+        <table>
+          <thead>
+            <tr>
+              {theadTr.map((item) => <th key={ item }>{item}</th>)}
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+          </thead>
+          <tbody>
+            {planetsFiltered.map((item, index) => (
+              <tr key={ index }>
+                <td>{item.name}</td>
+                <td>{item.rotation_period}</td>
+                <td>{item.orbital_period}</td>
+                <td>{item.diameter}</td>
+                <td>{item.climate}</td>
+                <td>{item.gravity}</td>
+                <td>{item.terrain}</td>
+                <td>{item.surface_water}</td>
+                <td>{item.population}</td>
+                <td>{item.films}</td>
+                <td>{item.created}</td>
+                <td>{item.edited}</td>
+                <td>{item.url}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+      </div>
+    )
+    )
   );
 };
 export default Table;

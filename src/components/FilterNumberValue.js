@@ -6,6 +6,8 @@ const FilterNumberValue = () => {
     filter,
     planetsFiltered,
     setPlanets,
+    // planets,
+    // setPlanetsFiltered,
     // columns,
     // setColumns,
   } = useContext(myContext);
@@ -19,15 +21,12 @@ const FilterNumberValue = () => {
     'rotation_period',
     'surface_water']);
 
-  // console.log('colunas', columns);
-  //   console.log(filter);
   const handleClick = () => {
     setFilter({
       ...filter,
-      filterByNumericValues: [
+      filterByNumericValues: [...filter.filterByNumericValues,
         { valueColumn, valueComparison, valueNumeric }],
     });
-    // console.log('planetsFiltered', planetsFiltered);
     const FilterNumber = planetsFiltered.filter((planeta) => {
       if (valueComparison === 'maior que') {
         return Number(planeta[valueColumn]) > Number(valueNumeric);
@@ -40,14 +39,11 @@ const FilterNumberValue = () => {
       }
       return null;
     });
-    // console.log('valueCollumn', valueColumn);
+
     setPlanets(FilterNumber);
     const notRepeatFilters = columns.filter((column) => column !== valueColumn);
-    // console.log('colluns2', valueColumn);
     setColumns(notRepeatFilters);
-    // setColumns(notRepeatFilters.reverse);
     setValueColumn(notRepeatFilters);
-    // console.log(notRepeatFilters);
   };
 
   return (
@@ -56,16 +52,9 @@ const FilterNumberValue = () => {
         <select
           name="valueColumn"
           id="valueColumn"
-          // value={ test }
           data-testid="column-filter"
-          onChange={ ({ target: { value } }) => setValueColumn(value) }
           onClick={ ({ target: { value } }) => setValueColumn(value) }
         >
-          {/* <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option> */}
 
           {columns.map((item) => (
             <option key={ item } value={ item }>{ item }</option>
@@ -76,7 +65,7 @@ const FilterNumberValue = () => {
         <select
           name="valueComparison"
           id="valueComparison"
-          // value={ valueComparison }
+          value={ valueComparison }
           data-testid="comparison-filter"
           onChange={ ({ target: { value } }) => setValueComparison(value) }
         >
@@ -96,16 +85,39 @@ const FilterNumberValue = () => {
         />
       </label>
       <button
-        // name="Filtrar"
-        // id="Filtrar"
         type="button"
         data-testid="button-filter"
         onClick={ handleClick }
       >
         Filtrar
       </button>
+      <div>
+        {filter.filterByNumericValues && filter.filterByNumericValues.map((item, i) => (
+          <div data-testid="filter" key={ i }>
+            {item.valueColumn}
+            {' '}
+            {item.valueComparison}
+            {' '}
+            {item.valueNumeric}
+            <button
+              type="button"
+              value={ item.valueColumn }
+              data-testid="remove"
 
+            >
+              X
+            </button>
+          </div>
+        ))}
+      </div>
+      <button
+        type="button"
+        data-testid="button-remove-filters"
+      >
+        Remover Todos
+      </button>
     </div>
+
   );
 };
 export default FilterNumberValue;

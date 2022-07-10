@@ -9,6 +9,7 @@ const FilterSearch = () => {
       filterByName: {
         ...filter, name,
       },
+      filterByNumericValues: [...filter.filterByNumericValues],
     });
   };
 
