@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import myContext from '../context/myContext';
 
 const FilterNumberValue = () => {
@@ -7,9 +7,7 @@ const FilterNumberValue = () => {
     planetsFiltered,
     setPlanets,
     // planets,
-    // setPlanetsFiltered,
-    // columns,
-    // setColumns,
+    allPlanets,
   } = useContext(myContext);
 
   const [valueColumn, setValueColumn] = useState('population');
@@ -24,7 +22,8 @@ const FilterNumberValue = () => {
   const handleClick = () => {
     setFilter({
       ...filter,
-      filterByNumericValues: [...filter.filterByNumericValues,
+      filterByNumericValues: [
+        ...filter.filterByNumericValues,
         { valueColumn, valueComparison, valueNumeric }],
     });
     const FilterNumber = planetsFiltered.filter((planeta) => {
@@ -43,7 +42,50 @@ const FilterNumberValue = () => {
     setPlanets(FilterNumber);
     const notRepeatFilters = columns.filter((column) => column !== valueColumn);
     setColumns(notRepeatFilters);
-    setValueColumn(notRepeatFilters);
+
+    // setValueColumn(notRepeatFilters);
+  };
+
+  const applyFilters = useCallback(() => {
+    // console.log('filter.filterByNumericValues', filter.filterByNumericValues);
+    // console.log('planets', planets);
+    // console.log('allPlanets', allPlanets);
+    const FilterNumber = allPlanets
+      .filter((planeta) => filter.filterByNumericValues.every((filters) => {
+        if (filters.valueComparison === 'maior que') {
+          return Number(planeta[filters.valueColumn]) > Number(filters.valueNumeric);
+        }
+        if (filters.valueComparison === 'menor que') {
+          return Number(planeta[filters.valueColumn]) < Number(filters.valueNumeric);
+        }
+        if (filters.valueComparison === 'igual a') {
+          return Number(planeta[filters.valueColumn]) === Number(filters.valueNumeric);
+        }
+        return null;
+      }));
+    // console.log('FilterNumber', FilterNumber);
+    setPlanets(FilterNumber);
+  }, [filter.filterByNumericValues, allPlanets, setPlanets]);
+
+  const removeFilter = ({ target: { value } }) => {
+    const { filterByName: { name }, filterByNumericValues } = filter;
+    setColumns([...columns, value]);
+    const refresh = filterByNumericValues
+      .filter((filters) => filters.valueColumn !== value);
+    // console.log('refresh', filter.filterByNumericValues);
+    // console.log('planetsFiltered', planetsFiltered);
+    // console.log('setFilter', filter);
+    setFilter({
+      filterByName: { name },
+      filterByNumericValues: refresh,
+    });
+  };
+
+  useEffect(() => { applyFilters(); }, [applyFilters]);
+  const removeAllFilters = () => {
+    setFilter({ ...filter, filterByNumericValues: [] });
+    // console.log('test2', filter.filterByNumericValues);
+    // setPlanets(planetsFiltered);
   };
 
   return (
@@ -103,7 +145,7 @@ const FilterNumberValue = () => {
               type="button"
               value={ item.valueColumn }
               data-testid="remove"
-
+              onClick={ removeFilter }
             >
               X
             </button>
@@ -112,6 +154,7 @@ const FilterNumberValue = () => {
       </div>
       <button
         type="button"
+        onClick={ removeAllFilters }
         data-testid="button-remove-filters"
       >
         Remover Todos
