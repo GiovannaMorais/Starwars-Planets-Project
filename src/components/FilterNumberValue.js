@@ -1,4 +1,6 @@
-import React, { useCallback, useContext, useState, useEffect } from 'react';
+import React, { useContext, useState,
+  useEffect, useCallback,
+} from 'react';
 import myContext from '../context/myContext';
 
 const FilterNumberValue = () => {
@@ -6,7 +8,10 @@ const FilterNumberValue = () => {
     filter,
     planetsFiltered,
     setPlanets,
-    // planets,
+    sort,
+    setSort,
+    column,
+    setColumn,
     allPlanets,
   } = useContext(myContext);
 
@@ -40,16 +45,11 @@ const FilterNumberValue = () => {
     });
 
     setPlanets(FilterNumber);
-    const notRepeatFilters = columns.filter((column) => column !== valueColumn);
+    const notRepeatFilters = columns.filter((coluna) => coluna !== valueColumn);
     setColumns(notRepeatFilters);
-
-    // setValueColumn(notRepeatFilters);
   };
 
   const applyFilters = useCallback(() => {
-    // console.log('filter.filterByNumericValues', filter.filterByNumericValues);
-    // console.log('planets', planets);
-    // console.log('allPlanets', allPlanets);
     const FilterNumber = allPlanets
       .filter((planeta) => filter.filterByNumericValues.every((filters) => {
         if (filters.valueComparison === 'maior que') {
@@ -63,31 +63,38 @@ const FilterNumberValue = () => {
         }
         return null;
       }));
-    // console.log('FilterNumber', FilterNumber);
     setPlanets(FilterNumber);
   }, [filter.filterByNumericValues, allPlanets, setPlanets]);
+
+  useEffect(() => { applyFilters(); }, [applyFilters]);
 
   const removeFilter = ({ target: { value } }) => {
     const { filterByName: { name }, filterByNumericValues } = filter;
     setColumns([...columns, value]);
     const refresh = filterByNumericValues
       .filter((filters) => filters.valueColumn !== value);
-    // console.log('refresh', filter.filterByNumericValues);
-    // console.log('planetsFiltered', planetsFiltered);
-    // console.log('setFilter', filter);
     setFilter({
       filterByName: { name },
       filterByNumericValues: refresh,
     });
   };
 
-  useEffect(() => { applyFilters(); }, [applyFilters]);
   const removeAllFilters = () => {
     setFilter({ ...filter, filterByNumericValues: [] });
-    // console.log('test2', filter.filterByNumericValues);
-    // setPlanets(planetsFiltered);
   };
+  const handleSortClick = () => {
+    setFilter({
+      ...filter,
+      filterByNumericValues: [
+        ...filter.filterByNumericValues,
+      ],
+      order: {
+        column,
+        sort,
+      },
 
+    });
+  };
   return (
     <div>
       <label htmlFor="valueColumn">
@@ -159,6 +166,55 @@ const FilterNumberValue = () => {
       >
         Remover Todos
       </button>
+      <div>
+        <label htmlFor="order">
+          <select
+            name="order"
+            id="order"
+            data-testid="column-sort"
+            onChange={ (e) => setColumn(e.target.value) }
+          >
+            <option value="rotation_period">rotation_period</option>
+            <option value="population">population</option>
+            <option value="orbital_period">orbital_period</option>
+            <option value="diameter">diameter</option>
+            <option value="surface_water">surface_water</option>
+          </select>
+        </label>
+        <label htmlFor="radio-asc">
+          Ascendente
+          <input
+            type="radio"
+            name="radio-order"
+            id="radio-asc"
+            value="ASC"
+            checked={ sort === 'ASC' }
+            data-testid="column-sort-input-asc"
+            onChange={ (e) => { setSort(e.target.value); } }
+          />
+        </label>
+        <label htmlFor="radio-desc">
+          Descendente
+          <input
+            type="radio"
+            name="radio-order"
+            id="radio-desc"
+            value="DESC"
+            checked={ sort === 'DESC' }
+            data-testid="column-sort-input-desc"
+            onChange={ (e) => { setSort(e.target.value); } }
+          />
+        </label>
+        <button
+          name="Filtrar"
+          id="Filtrar"
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ () => handleSortClick() }
+        >
+          Ordenar
+        </button>
+      </div>
     </div>
 
   );

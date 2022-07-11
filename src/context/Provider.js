@@ -11,10 +11,15 @@ const Provider = ({ children }) => {
       name: '',
     },
     filterByNumericValues: [],
-
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   };
   const [filter, setFilter] = useState(innitialFilter);
   const [allPlanets, setAllPlanets] = useState([]);
+  const [sort, setSort] = useState('ASC');
+  const [column, setColumn] = useState('name');
   useEffect(() => {
     const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
@@ -22,7 +27,7 @@ const Provider = ({ children }) => {
       const data = await FetchApi(url);
       setAllPlanets(data.results);
       setPlanets(data.results);
-      console.log('data.results', data.results);
+      // console.log('data.results', data.results);
     };
     fetchEndpoint(endpoint);
   }, []);
@@ -36,6 +41,10 @@ const Provider = ({ children }) => {
     setFilter,
     allPlanets,
     setAllPlanets,
+    sort,
+    setSort,
+    column,
+    setColumn,
   };
   return (
     <myContext.Provider value={ contextValue }>
