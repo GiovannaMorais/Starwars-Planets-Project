@@ -151,7 +151,6 @@ const FilterNumberValue = () => {
             <button
               type="button"
               value={ item.valueColumn }
-              data-testid="remove"
               onClick={ removeFilter }
             >
               X
@@ -164,7 +163,7 @@ const FilterNumberValue = () => {
         onClick={ removeAllFilters }
         data-testid="button-remove-filters"
       >
-        Remover Todos
+        Remover todas filtragens
       </button>
       <div>
         <label htmlFor="order">
