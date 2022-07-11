@@ -43,13 +43,7 @@ const Table = () => {
     const filterPlanetsName = planets.filter((planet) => (
       planet.name.includes(name)));
 
-    if (sort === 'ASC') {
-      setPlanetsFiltered(filterPlanetsName.sort(SortCompared));
-    } else if (sort === 'DESC') {
-      setPlanetsFiltered(planets.sort(SortCompared));
-    } else {
-      setPlanetsFiltered(filterPlanetsName);
-    }
+    setPlanetsFiltered(filterPlanetsName.sort(SortCompared));
   }, [filter, planets, setPlanetsFiltered, sort]);
 
   return (
