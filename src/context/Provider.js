@@ -12,7 +12,7 @@ const Provider = ({ children }) => {
     },
     filterByNumericValues: [],
     order: {
-      column: 'name',
+      column: 'population',
       sort: 'ASC',
     },
   };
@@ -27,7 +27,6 @@ const Provider = ({ children }) => {
       const data = await FetchApi(url);
       setAllPlanets(data.results);
       setPlanets(data.results);
-      // console.log('data.results', data.results);
     };
     fetchEndpoint(endpoint);
   }, []);

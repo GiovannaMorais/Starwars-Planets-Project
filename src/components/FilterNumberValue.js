@@ -172,7 +172,7 @@ const FilterNumberValue = () => {
             name="order"
             id="order"
             data-testid="column-sort"
-            onChange={ (e) => setColumn(e.target.value) }
+            onChange={ ({ target: { value } }) => setColumn(value) }
           >
             <option value="rotation_period">rotation_period</option>
             <option value="population">population</option>
@@ -188,9 +188,8 @@ const FilterNumberValue = () => {
             name="radio-order"
             id="radio-asc"
             value="ASC"
-            checked={ sort === 'ASC' }
             data-testid="column-sort-input-asc"
-            onChange={ (e) => { setSort(e.target.value); } }
+            onChange={ ({ target: { value } }) => { setSort(value); } }
           />
         </label>
         <label htmlFor="radio-desc">
@@ -200,9 +199,8 @@ const FilterNumberValue = () => {
             name="radio-order"
             id="radio-desc"
             value="DESC"
-            checked={ sort === 'DESC' }
             data-testid="column-sort-input-desc"
-            onChange={ (e) => { setSort(e.target.value); } }
+            onChange={ ({ target: { value } }) => { setSort(value); } }
           />
         </label>
         <button
